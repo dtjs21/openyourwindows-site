@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy Policy — Open Your Windows</title>
+  <style>
+    body { font-family: -apple-system, sans-serif; max-width: 680px; margin: 40px auto; padding: 0 20px; color: #1c1c1e; line-height: 1.6; }
+    h1 { font-size: 1.6rem; }
+    h2 { font-size: 1.1rem; margin-top: 2rem; }
+    p, li { font-size: 0.95rem; color: #3a3a3c; }
+    a { color: #007aff; }
+    footer { margin-top: 3rem; font-size: 0.8rem; color: #8e8e93; }
+  </style>
+</head>
+<body>
+  <h1>Privacy Policy</h1>
+  <p><strong>Effective date:</strong> April 16, 2026 &nbsp;·&nbsp; <strong>Publisher:</strong> JoeldCo, LLC</p>
+
+  <h2>What this app does</h2>
+  <p>Open Your Windows checks local weather, air quality, and pollen conditions and returns a single recommendation: Open, Maybe, or Keep Closed. All logic runs on a server we operate; no logic runs on your device beyond displaying the result.</p>
+
+  <h2>Location</h2>
+  <p>The app requests <strong>When In Use</strong> location permission. Your coordinates are sent to our server (hosted on Supabase) to fetch conditions for your area. Coordinates are:</p>
+  <ul>
+    <li>Rounded to a 0.01° grid (~1 km) before any API calls are made.</li>
+    <li>Never stored in a database.</li>
+    <li>Never associated with your identity, device ID, or any other personal information.</li>
+    <li>Never shared with advertisers or sold.</li>
+  </ul>
+
+  <h2>Analytics</h2>
+  <p>We use <a href="https://telemetrydeck.com">TelemetryDeck</a> for anonymous usage analytics. TelemetryDeck hashes all signals before they leave your device so we never see a user ID or device identifier — only aggregate counts. We collect:</p>
+  <ul>
+    <li>App opens</li>
+    <li>Decision type displayed (Open / Maybe / Closed) and confidence level</li>
+    <li>Refresh source (pull-to-refresh vs. automatic)</li>
+    <li>Pollen sensitivity toggle state (on/off)</li>
+    <li>Error type when an error is displayed</li>
+  </ul>
+  <p>No location data is ever included in analytics signals.</p>
+
+  <h2>Third-party data sources</h2>
+  <p>To generate a recommendation we query these services with your rounded coordinates:</p>
+  <ul>
+    <li><a href="https://openweathermap.org/privacy-policy">OpenWeatherMap</a> — weather and forecast</li>
+    <li><a href="https://www.airnow.gov/about-airnow/">AirNow (EPA)</a> — air quality index</li>
+    <li><a href="https://policies.google.com/privacy">Google Pollen API</a> — pollen forecast</li>
+  </ul>
+  <p>Each provider's own privacy policy governs their handling of query parameters.</p>
+
+  <h2>No accounts, no persistent storage</h2>
+  <p>Open Your Windows has no user accounts. We do not store any personal data on our servers. Your pollen sensitivity preference is stored only on your device using iOS standard storage.</p>
+
+  <h2>Children</h2>
+  <p>This app is not directed at children under 13 and does not knowingly collect data from them.</p>
+
+  <h2>Changes</h2>
+  <p>If this policy changes materially, we will update the effective date above. Continued use of the app after a change constitutes acceptance.</p>
+
+  <h2>Contact</h2>
+  <p>Questions? Email <a href="mailto:support@openyourwindows.app">support@openyourwindows.app</a> or visit the <a href="/support">support page</a>.</p>
+
+  <footer>© 2026 JoeldCo, LLC. All rights reserved.</footer>
+</body>
+</html>
