@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Open Your Windows</title>
+  <meta name="description" content="Open Your Windows is an iOS app that checks weather, air quality, pollen, gusts, and rain to answer one simple question: should you open the windows right now?">
+  <meta name="apple-itunes-app" content="app-id=6762444284">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta property="og:title" content="Open Your Windows">
+  <meta property="og:description" content="A simple iOS app that tells you when the air outside is worth letting in.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://openyourwindows.app/">
+  <meta property="og:image" content="https://openyourwindows.app/open-your-windows-icon.png">
+  <link rel="icon" href="/open-your-windows-icon.png">
+  <link rel="apple-touch-icon" href="/open-your-windows-icon.png">
+  <style>
+    :root {
+      color-scheme: light;
+      --background: #f7f5ef;
+      --surface: #fffdf8;
+      --ink: #151816;
+      --muted: #666b68;
+      --line: rgba(21, 24, 22, 0.14);
+      --green: #3fa34d;
+      --green-dark: #1f6f35;
+      --yellow: #e9b949;
+      --red: #d85a4a;
+      --shadow: 0 28px 70px rgba(20, 28, 23, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0) 34%),
+        var(--background);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header,
+    main,
+    footer {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 28px 0 18px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .brand img {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      box-shadow: 0 8px 22px rgba(31, 111, 53, 0.18);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    nav a,
+    footer a {
+      text-decoration: none;
+    }
+
+    nav a:hover,
+    footer a:hover {
+      color: var(--green-dark);
+    }
+
+    main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(310px, 430px);
+      align-items: center;
+      gap: 64px;
+      padding: 46px 0 70px;
+    }
+
+    .hero {
+      max-width: 650px;
+    }
+
+    .eyebrow {
+      margin: 0 0 18px;
+      color: var(--green-dark);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 620px;
+      font-size: clamp(3rem, 8vw, 6.4rem);
+      line-height: 0.94;
+      letter-spacing: 0;
+    }
+
+    .lede {
+      max-width: 560px;
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: clamp(1.06rem, 2vw, 1.25rem);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 48px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 0 20px;
+      border: 1px solid var(--line);
+      text-decoration: none;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .button.primary {
+      border-color: var(--green-dark);
+      background: var(--green-dark);
+      color: white;
+      box-shadow: 0 12px 28px rgba(31, 111, 53, 0.2);
+    }
+
+    .button.secondary {
+      background: rgba(255, 255, 255, 0.58);
+      color: var(--ink);
+    }
+
+    .signals {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 44px;
+      max-width: 620px;
+    }
+
+    .signal {
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+    }
+
+    .signal strong {
+      display: block;
+      font-size: 0.96rem;
+    }
+
+    .signal span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .phone {
+      justify-self: end;
+      width: min(100%, 390px);
+      border-radius: 44px;
+      padding: 14px;
+      background: #101511;
+      box-shadow: var(--shadow);
+    }
+
+    .screen {
+      min-height: 660px;
+      border-radius: 34px;
+      padding: 26px 24px;
+      background:
+        radial-gradient(circle at 50% 28%, rgba(63, 163, 77, 0.18), rgba(63, 163, 77, 0) 34%),
+        #081109;
+      color: white;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .status {
+      display: flex;
+      justify-content: space-between;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .place {
+      margin-top: 26px;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 0.86rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .location {
+      margin-top: 4px;
+      font-size: 1.14rem;
+      font-weight: 800;
+    }
+
+    .decision {
+      width: 206px;
+      height: 206px;
+      margin: 48px auto 34px;
+      border-radius: 50%;
+      background: var(--green);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      box-shadow: 0 0 0 14px rgba(63, 163, 77, 0.08);
+    }
+
+    .decision span {
+      display: block;
+      font-size: 0.98rem;
+      opacity: 0.9;
+    }
+
+    .decision strong {
+      display: block;
+      font-size: 3rem;
+      line-height: 1;
+      margin-top: 8px;
+    }
+
+    .reason {
+      margin: 0 auto;
+      max-width: 300px;
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .subreason {
+      margin: 12px auto 0;
+      color: rgba(255, 255, 255, 0.62);
+      font-style: italic;
+      text-align: center;
+    }
+
+    .conditions {
+      margin-top: auto;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+
+    .condition {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 15px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .condition:last-child {
+      border-bottom: 0;
+    }
+
+    .condition span {
+      color: rgba(255, 255, 255, 0.62);
+      font-size: 0.82rem;
+    }
+
+    .condition strong {
+      font-size: 1rem;
+    }
+
+    .pill {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--green);
+      display: inline-block;
+      margin-left: 8px;
+    }
+
+    footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 22px 0 34px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    @media (max-width: 860px) {
+      header {
+        align-items: flex-start;
+      }
+
+      nav {
+        gap: 12px;
+        font-size: 0.9rem;
+      }
+
+      main {
+        grid-template-columns: 1fr;
+        gap: 42px;
+        padding-top: 30px;
+      }
+
+      .phone {
+        justify-self: center;
+      }
+    }
+
+    @media (max-width: 560px) {
+      header,
+      main,
+      footer {
+        width: min(100% - 28px, 1120px);
+      }
+
+      header {
+        flex-direction: column;
+        padding-top: 20px;
+      }
+
+      h1 {
+        font-size: clamp(2.72rem, 15vw, 4.2rem);
+      }
+
+      .signals {
+        grid-template-columns: 1fr;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .screen {
+        min-height: 590px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <a class="brand" href="/" aria-label="Open Your Windows home">
+        <img src="/open-your-windows-icon.png" alt="">
+        <span>Open Your Windows</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="https://apps.apple.com/us/app/open-your-windows/id6762444284">App Store</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/support">Support</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="headline">
+        <p class="eyebrow">A simple iOS app for fresh air decisions</p>
+        <h1 id="headline">Open Your Windows</h1>
+        <p class="lede">Know when the air outside is worth letting in. The app combines temperature, dewpoint, air quality, pollen, gusts, and rain into one clear recommendation.</p>
+        <div class="actions">
+          <a class="button primary" href="https://apps.apple.com/us/app/open-your-windows/id6762444284" aria-label="Open Your Windows on the App Store">View on the App Store</a>
+          <a class="button secondary" href="/support">Get support</a>
+        </div>
+        <div class="signals" aria-label="Signals checked by Open Your Windows">
+          <div class="signal">
+            <strong>Comfort</strong>
+            <span>Temperature, dewpoint, gusts, and rain.</span>
+          </div>
+          <div class="signal">
+            <strong>Air quality</strong>
+            <span>AQI checks before you let outdoor air in.</span>
+          </div>
+          <div class="signal">
+            <strong>Pollen</strong>
+            <span>Optional allergy-sensitive guidance.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="phone" aria-label="Open Your Windows app preview">
+        <div class="screen">
+          <div class="status">
+            <span>9:41</span>
+            <span>Updated now</span>
+          </div>
+          <div class="place">Today</div>
+          <div class="location">Downers Grove, IL</div>
+          <div class="decision">
+            <div>
+              <span>Windows</span>
+              <strong>Open</strong>
+            </div>
+          </div>
+          <p class="reason">Air quality is good, humidity is comfortable, and conditions look stable.</p>
+          <p class="subreason">Good for the next few hours.</p>
+          <div class="conditions" aria-label="Example conditions">
+            <div class="condition">
+              <div><strong>Temperature</strong><br><span>Comfort range</span></div>
+              <div><strong>68&deg;F</strong><span class="pill"></span></div>
+            </div>
+            <div class="condition">
+              <div><strong>Air Quality</strong><br><span>PM2.5</span></div>
+              <div><strong>32</strong><span class="pill"></span></div>
+            </div>
+            <div class="condition">
+              <div><strong>Pollen</strong><br><span>Dominant: Oak</span></div>
+              <div><strong>Low</strong><span class="pill"></span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>&copy; 2026 JoeldCo, LLC</span>
+      <div class="footer-links">
+        <a href="https://apps.apple.com/us/app/open-your-windows/id6762444284">App Store</a>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/support">Support</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
