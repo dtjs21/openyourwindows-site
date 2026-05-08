@@ -8,6 +8,7 @@
     body { font-family: -apple-system, sans-serif; max-width: 680px; margin: 40px auto; padding: 0 20px; color: #1c1c1e; line-height: 1.6; }
     h1 { font-size: 1.6rem; }
     h2 { font-size: 1.1rem; margin-top: 2rem; }
+    h3 { font-size: 1rem; margin-top: 1.4rem; }
     p, li { font-size: 0.95rem; color: #3a3a3c; }
     a { color: #007aff; }
     footer { margin-top: 3rem; font-size: 0.8rem; color: #8e8e93; }
@@ -20,22 +21,73 @@
   <h2>Contact</h2>
   <p>Email us at <a href="mailto:support@openyourwindows.app">support@openyourwindows.app</a>. We typically reply within 1–2 business days.</p>
 
+  <h2>What the app does</h2>
+  <p>Open Your Windows checks weather, dewpoint, air quality, pollen, wind gusts, and rain forecast for your location and gives you a single recommendation: Open, Maybe, or Keep Closed. There is no account or login.</p>
+
   <h2>Frequently asked questions</h2>
 
-  <h2>Why is the recommendation different from the weather app?</h2>
+  <h3>How do I set a manual location?</h3>
+  <p>If you'd rather not share Location Services, or GPS isn't resolving where you want, set a manual location. Open <strong>Settings → Set Manual Location</strong>, type a U.S. city ("Chicago") or ZIP code ("60515"), and tap Save. The app uses the manual location until you change or clear it. To go back to GPS, tap <strong>Use My Current Location</strong> from Settings.</p>
+
+  <h3>What does "View Details" show?</h3>
+  <p>The Details screen explains why the app made its recommendation. It shows an expanded summary, each measurement (temperature, dewpoint, air quality, wind gusts, rain probability, pollen) with the comfort range and where the current value falls inside that range, source attribution (which provider supplied each reading), and when the data was last updated. Each non-pollen measurement is read-only.</p>
+
+  <h3>What does the Pollen row open?</h3>
+  <p>Tapping the Pollen row in Details opens a today-only Pollen Detail screen. It shows tree, grass, and weed UPI levels (the Universal Pollen Index, 0–5), the dominant species, the top species in season for your location, and the source. Pollen detail is informational; the recommendation is already factored in on the main screen.</p>
+
+  <h3>Why does Pollen Detail say "unavailable"?</h3>
+  <p>Some locations have no pollen monitor coverage, and some days have no usable forecast for the area. When that happens we show a graceful unavailable state rather than guessing. The main recommendation still works — pollen just isn't shown on the detail screen for that day.</p>
+
+  <h3>What notifications does the app send?</h3>
+  <p>v1.1 introduces optional, opt-in alerts. They are local notifications generated on your device (we do not send push notifications). Two types:</p>
+  <ul>
+    <li><strong>"Good time to open"</strong> — when the recommendation changes from Maybe or Keep Closed to Open.</li>
+    <li><strong>"Time to close"</strong> — when the recommendation changes from Open to Keep Closed.</li>
+  </ul>
+  <p>Alerts are quiet (no sound, no badge — just the banner) and suppressed during quiet hours (10 PM–7 AM your local time). They are off by default; you turn them on in <strong>Settings → Alerts</strong>.</p>
+
+  <h3>Why didn't I get a notification?</h3>
+  <p>iOS controls when the app is allowed to refresh in the background, so alerts are best-effort and may not fire during a short session. Common reasons an expected alert didn't appear:</p>
+  <ul>
+    <li>iOS hadn't given the app a refresh window yet.</li>
+    <li>The recommendation hadn't actually changed since the last sample.</li>
+    <li>An alert in the same direction had fired in the previous 90 minutes (we de-dup).</li>
+    <li>It was during quiet hours (10 PM–7 AM).</li>
+    <li>The Notifications toggle is off in Settings → Alerts, or notifications are disabled at the iOS level.</li>
+    <li>iOS Background App Refresh is disabled (<strong>iOS Settings → General → Background App Refresh</strong>).</li>
+  </ul>
+
+  <h3>How do I turn off notifications?</h3>
+  <p>Two ways. Either open the app and turn off the toggle in <strong>Settings → Alerts</strong>, or open <strong>iOS Settings → Notifications → Open Your Windows</strong> and disable Allow Notifications. Once you turn them off, no further alerts will fire.</p>
+
+  <h3>Why is the recommendation different from the weather app?</h3>
   <p>Weather apps show raw data — temperature, chance of rain. Open Your Windows combines temperature, humidity (dewpoint), air quality, pollen, gusts, and rain forecast into a single comfort decision. Two days can have the same temperature but very different dewpoints; only one of them is comfortable with the windows open.</p>
 
-  <h2>The app says "Checking…" and never loads</h2>
-  <p>This usually means location permission was denied. Go to <strong>Settings → Privacy & Security → Location Services → Open Your Windows</strong> and set it to <em>While Using the App</em>. Then pull down to refresh.</p>
+  <h3>The app says "Checking…" and never loads</h3>
+  <p>This usually means location permission was denied or GPS hasn't resolved yet. Two recovery paths:</p>
+  <ul>
+    <li>Open <strong>iOS Settings → Privacy &amp; Security → Location Services → Open Your Windows</strong> and set it to <em>While Using the App</em>, then pull down to refresh.</li>
+    <li>Or set a manual location: <strong>Settings → Set Manual Location</strong> in the app.</li>
+  </ul>
 
-  <h2>The decision seems wrong for my conditions</h2>
+  <h3>The decision seems wrong for my conditions</h3>
   <p>The defaults are tuned for general comfort. If you have pollen allergies or asthma, enable the <strong>Pollen Sensitive</strong> toggle in Settings — it tightens the pollen thresholds and re-fetches immediately. If something still seems off, email us with your location (city/state is fine) and what the app showed vs. what you expected.</p>
 
-  <h2>The widget shows old data</h2>
-  <p>iOS controls widget refresh timing and may delay updates by up to an hour. Pull down to refresh in the app to force an immediate update; the widget will pick up the new data on its next scheduled refresh.</p>
+  <h3>The widget shows old data</h3>
+  <p>iOS controls widget refresh timing and may delay updates. Pull down to refresh in the app to force an immediate update; the widget will pick up the new data on its next scheduled refresh. If widgets and alerts both feel stale for a long time, check <strong>iOS Settings → General → Background App Refresh</strong> and confirm it's on for Open Your Windows.</p>
 
-  <h2>How is my location used?</h2>
-  <p>Your coordinates are rounded to a ~1 km grid, sent to our server to fetch weather/AQI/pollen, and never stored. See the <a href="/privacy">Privacy Policy</a> for full details.</p>
+  <h3>General troubleshooting</h3>
+  <p>If something looks off, try these in order:</p>
+  <ul>
+    <li>Pull to refresh in the app to force a fresh fetch.</li>
+    <li>Confirm Location permission in <strong>iOS Settings → Privacy &amp; Security → Location Services</strong>.</li>
+    <li>Set a manual location if GPS isn't resolving where you want.</li>
+    <li>Check <strong>iOS Settings → General → Background App Refresh</strong> if widgets or alerts seem stale.</li>
+    <li>Reinstall as a last resort. Reinstalling clears the on-device cache and your manual-location selection.</li>
+  </ul>
+
+  <h3>How is my location used?</h3>
+  <p>Your coordinates are sent to our server to fetch weather, AQI, and pollen data, and are not stored in a server database. v1.1 stores the most recent coordinate locally on your device so the widget and best-effort background refresh can work. See the <a href="/privacy">Privacy Policy</a> for full details.</p>
 
   <footer>© 2026 JoeldCo, LLC · <a href="/privacy">Privacy Policy</a></footer>
 </body>

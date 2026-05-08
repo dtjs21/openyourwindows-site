@@ -8,6 +8,7 @@
     body { font-family: -apple-system, sans-serif; max-width: 680px; margin: 40px auto; padding: 0 20px; color: #1c1c1e; line-height: 1.6; }
     h1 { font-size: 1.6rem; }
     h2 { font-size: 1.1rem; margin-top: 2rem; }
+    h3 { font-size: 1rem; margin-top: 1.4rem; }
     p, li { font-size: 0.95rem; color: #3a3a3c; }
     a { color: #007aff; }
     footer { margin-top: 3rem; font-size: 0.8rem; color: #8e8e93; }
@@ -15,42 +16,69 @@
 </head>
 <body>
   <h1>Privacy Policy</h1>
-  <p><strong>Effective date:</strong> April 16, 2026 &nbsp;·&nbsp; <strong>Publisher:</strong> JoeldCo, LLC</p>
+  <p><strong>Effective date:</strong> May 8, 2026 &nbsp;·&nbsp; <strong>Publisher:</strong> JoeldCo, LLC</p>
 
   <h2>What this app does</h2>
-  <p>Open Your Windows checks local weather, air quality, and pollen conditions and returns a single recommendation: Open, Maybe, or Keep Closed. All logic runs on a server we operate; no logic runs on your device beyond displaying the result.</p>
+  <p>Open Your Windows checks local weather, air quality, and pollen conditions and returns a single recommendation: Open, Maybe, or Keep Closed. The recommendation is computed by a server we operate; no logic runs on your device beyond displaying the result.</p>
+
+  <h2>No accounts, no identifiers</h2>
+  <p>The app does not require an account or login. We do not collect names, email addresses, phone numbers, device IDs, advertising IDs, or any other user identifiers.</p>
 
   <h2>Location</h2>
-  <p>The app requests <strong>When In Use</strong> location permission. Your coordinates are sent to our server (hosted on Supabase) to fetch conditions for your area. Coordinates are:</p>
+  <p>The app requests <strong>When In Use</strong> location permission. We use your coordinates only to fetch local conditions:</p>
   <ul>
-    <li>Rounded to a 0.01° grid (~1 km) before any API calls are made.</li>
-    <li>Never stored in a database.</li>
-    <li>Never associated with your identity, device ID, or any other personal information.</li>
-    <li>Never shared with advertisers or sold.</li>
+    <li>Your coordinates are sent to our Supabase Edge Function and to the upstream data providers (OpenWeatherMap, AirNow, IQAir, Google Pollen) to fulfill the request.</li>
+    <li>Inside our edge function, coordinates are rounded to a 0.01° grid (~1 km) for cache-key purposes so multiple requests from the same neighborhood share a cached result.</li>
+    <li>Coordinates are <strong>not stored in a server database</strong>.</li>
+    <li>Coordinates are never associated with your identity, device ID, or any other personal information.</li>
+    <li>Coordinates are never shared with advertisers or sold.</li>
   </ul>
+
+  <h3>On-device storage (v1.1)</h3>
+  <p>To keep the home screen widget current and to support optional best-effort background refresh, the app stores a small set of values locally on your device, inside the app's App Group container. These never leave your device except when sent to our edge function for a current-conditions request:</p>
+  <ul>
+    <li><strong>Last known coordinate</strong> — the most recent location resolved by GPS or by manual entry. Used so the widget and background refresh know which location to fetch.</li>
+    <li><strong>Manual location</strong> — if you set a city or ZIP via Settings → Set Manual Location, that selection is stored locally and takes priority over GPS until you change or clear it.</li>
+    <li><strong>Most recent decision</strong> — the cached conditions response so the app and widget can render immediately on launch.</li>
+    <li><strong>Your preferences</strong> — the Pollen Sensitive toggle and the optional Notifications toggle.</li>
+  </ul>
+  <p>All of this is removed when you uninstall the app.</p>
+
+  <h2>Notifications (v1.1, optional)</h2>
+  <p>Open Your Windows can send a quiet local notification when the recommendation changes. Notifications are:</p>
+  <ul>
+    <li><strong>Off by default.</strong> You opt in via Settings → Alerts.</li>
+    <li><strong>Local only.</strong> Notifications are generated on your device. We do not send push notifications, do not maintain push tokens, and do not have any APNS or account infrastructure.</li>
+    <li><strong>Quiet.</strong> No sound, no badge — just the banner.</li>
+    <li><strong>Best-effort.</strong> iOS controls when the app is allowed to refresh in the background, so a notification may not fire during a short session and is not guaranteed at any specific interval.</li>
+    <li>Suppressed during quiet hours (10 PM–7 AM your local time).</li>
+  </ul>
+  <p>You can turn alerts off at any time from Settings → Alerts inside the app, or from iOS Settings → Notifications → Open Your Windows.</p>
+
+  <h2>Background refresh</h2>
+  <p>v1.1 requests opportunistic background refresh from iOS to keep the home screen widget current and to enable the optional notification described above. iOS decides when (and whether) to wake the app — it is best-effort, not guaranteed at any specific interval. You can disable background refresh in iOS Settings → General → Background App Refresh.</p>
 
   <h2>Analytics</h2>
-  <p>We use <a href="https://telemetrydeck.com">TelemetryDeck</a> for anonymous usage analytics. TelemetryDeck hashes all signals before they leave your device so we never see a user ID or device identifier — only aggregate counts. We collect:</p>
+  <p>We use <a href="https://telemetrydeck.com">TelemetryDeck</a> for anonymous, aggregate usage analytics. TelemetryDeck hashes all signals before they leave your device, so we never see a user ID or device identifier — only counts. We collect:</p>
   <ul>
-    <li>App opens</li>
-    <li>Decision type displayed (Open / Maybe / Closed) and confidence level</li>
-    <li>Refresh source (pull-to-refresh vs. automatic)</li>
-    <li>Pollen sensitivity toggle state (on/off)</li>
-    <li>Error type when an error is displayed</li>
+    <li>App opens.</li>
+    <li>Decision type displayed (Open / Maybe / Closed) and confidence level.</li>
+    <li>Refresh source (pull-to-refresh vs. automatic).</li>
+    <li>Pollen sensitivity toggle state (on/off).</li>
+    <li>Error type when an error is displayed (e.g., no location, API failure).</li>
+    <li><strong>v1.1 additions:</strong> notification opt-in funnel events (offer shown / accepted / declined, permission granted / denied, notification scheduled / tapped / presented in-foreground); background refresh wake-up count; transition-warning displayed; Trust Details and Pollen Detail screen opens (with the entry point — button or row); and a seasonal-threshold flag (month only) when the fall mold-season tightening affected a dewpoint reading.</li>
   </ul>
-  <p>No location data is ever included in analytics signals.</p>
+  <p>Telemetry never includes coordinates, location names, raw error messages, or any user-identifying value. Payload keys avoid TelemetryDeck's reserved dimension names so the dashboard breakdowns are honest.</p>
 
   <h2>Third-party data sources</h2>
-  <p>To generate a recommendation we query these services with your rounded coordinates:</p>
+  <p>To generate a recommendation, our edge function queries these services with your coordinates:</p>
   <ul>
-    <li><a href="https://openweathermap.org/privacy-policy">OpenWeatherMap</a> — weather and forecast</li>
-    <li><a href="https://www.airnow.gov/about-airnow/">AirNow (EPA)</a> — air quality index</li>
-    <li><a href="https://policies.google.com/privacy">Google Pollen API</a> — pollen forecast</li>
+    <li><a href="https://openweathermap.org/privacy-policy">OpenWeatherMap</a> — weather and forecast.</li>
+    <li><a href="https://www.airnow.gov/about-airnow/">AirNow (EPA)</a> — air quality index.</li>
+    <li><a href="https://www.iqair.com/us/privacy-policy">IQAir</a> — air quality index fallback when AirNow has no station coverage.</li>
+    <li><a href="https://policies.google.com/privacy">Google Pollen API</a> — pollen forecast.</li>
   </ul>
-  <p>Each provider's own privacy policy governs their handling of query parameters.</p>
-
-  <h2>No accounts, no persistent storage</h2>
-  <p>Open Your Windows has no user accounts. We do not store any personal data on our servers. Your pollen sensitivity preference is stored only on your device using iOS standard storage.</p>
+  <p>Each provider's own privacy policy governs their handling of query parameters. Our edge function runs on <a href="https://supabase.com/privacy">Supabase</a>; product analytics run on <a href="https://telemetrydeck.com/privacy/">TelemetryDeck</a>.</p>
 
   <h2>Children</h2>
   <p>This app is not directed at children under 13 and does not knowingly collect data from them.</p>
